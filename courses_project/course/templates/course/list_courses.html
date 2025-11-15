@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container px-4 px-lg-5 mt-5">
+    <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-2 row-cols-xl-3 justify-content-center">
+        {% for course in courses %}
+        <div class="col mb-5">
+            <div class="card h-100">
+                <!-- Product image-->
+                <img class="card-img-top" src="{{course.image_url}}" alt="image for {{course.title}}" />
+                <!-- Product details-->
+                <div class="card-body p-4">
+                    <div class="text-center">
+                        <!-- Product duration-->
+                        <h5 class="fw-bolder">{{cousre.duration}}</h5>
+                        <!-- Product title-->
+                        <h5 class="fw-bolder">{{course.title}}</h5>
+                        <!-- Product description-->
+                        {{course.description}}
+                        <!-- Product price-->
+                        <h5 class="d-flex justify-content-center small text-primary mb-2">{{course.price}} $</h5>
+                    </div>
+                </div>
+                <!-- Product actions-->
+                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                    <div class="text-center"><a class="btn btn-outline-primary mt-auto" href="{{course.id}}">More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
