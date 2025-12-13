@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from .forms import CourseForm, CategoryForm
 from .models import Course, Category
 from .filters import CourseFilter
@@ -23,8 +24,16 @@ def add_course_view(request):
 def list_courses_view(request):
     courses = Course.objects.all()
     course_filter = CourseFilter(request.GET, queryset=courses)
-    courses = course_filter.qs
-    return render(request, 'course/list_courses.html', {'courses': courses})
+    courses = course_filter.qs.order_by('id')
+    paginator = Paginator(courses, 10)
+    page = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page)
+    elided_page_range = paginator.get_elided_page_range(
+        number=page_obj.number,
+        on_each_side=2,
+        on_ends=1
+    )
+    return render(request, 'course/list_courses.html', {'courses': page_obj, 'elided_page_range': elided_page_range})
 
 
 @login_required

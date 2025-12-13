@@ -39,4 +39,40 @@
     </div>
 </div>
 
+<div class="pagination d-flex justify-content-center mt-4">
+    <ul class="pagination">
+        {% if courses.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="{% querystring page=courses.previous_page_number %}">Previous</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">Previous</span>
+        </li>
+        {% endif %}
+
+        {% for num in elided_page_range %}
+        {% if num == "…" %}
+        <li class="page-item disabled">
+            <span class="page-link">...</span>
+        </li>
+        {% else %}
+        <li class="page-item {% if num == courses.number %}active{% endif %}">
+            <a class="page-link" href="{% querystring page=num %}">{{ num }}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if courses.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="{% querystring page=courses.next_page_number %}">Next</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">Next</span>
+        </li>
+        {% endif %}
+    </ul>
+</div>
+
 {% endblock %}
