@@ -6,7 +6,8 @@
     <form method="post">
         {% csrf_token %}
         {{ form }}
-        <button type="submit" class="btn btn-primary mt-3">Save</button>
+        <p>Password: ******** <a href="{% url 'auth:password_change' %}">Change password</a></p>
+        <button type="submit" class="btn btn-primary mt-auto">Save</button>
     </form>
 </div>
 {% endblock %}
