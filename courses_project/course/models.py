@@ -29,3 +29,16 @@ class Course(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Bucket(models.Model):
+    class Status(models.TextChoices):
+        IN_BUCKET = 'IB', 'In bucket'
+        BOUGHT = 'BG', 'Bought'
+        WISHLISTED = 'WL', 'Wishlisted'
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='buckets')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='buckets')
+    status = models.CharField(max_length=2, choices=Status.choices, default=Status.IN_BUCKET)
+
+    def __str__(self):
+        return f"{self.user.full_name} - {self.course.title}"

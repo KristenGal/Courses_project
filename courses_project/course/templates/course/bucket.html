@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Your bucket 🛒</h2>
+
+{% if courses %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Course title</th>
+                <th>Price</th>
+                <th>Rating</th>
+                <th>Level</th>
+                <th>Duration</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in courses %}
+            <tr>
+                <td>{{ item.course.title }}</td>
+                <td>{{ item.course.price }} $</td>
+                <td>{{ item.course.rate }}/10 ⭐</td>
+                <td>{{ item.course.get_level_display }}</td>
+                <td>{{ item.course.duration }} hours</td>
+                <td>
+                    <a href="{% url 'course:add_to_wishlist' item.course.id %}" class="btn btn-warning btn-sm">
+                        ❤️ Move to wishlist
+                    </a>
+                    <a href="{% url 'course:delete_from_bucket' item.course.id %}" class="btn btn-danger btn-sm">
+                        🗑️ Remove
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Your bucket is empty</p>
+{% endif %}
+
+{% endblock %}

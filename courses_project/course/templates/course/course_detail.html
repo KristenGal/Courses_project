@@ -10,7 +10,10 @@
     <p>Category: {{ course.category.title }}</p>
     <p>Level: {{ course.get_level_display }}</p>
     <p>Duration: {{ course.duration }} hours</p>
+    <p>Rating: {{ course.rate }}/10 ⭐</p>
     <p>Price: {{ course.price }} $</p>
+    <a class="btn btn-outline-primary mt-auto {% if status == 'IB' %}disabled{% endif %}" href="{% url 'course:add_to_bucket' course.id %}">🛒 Add to bucket</a>
+    <a class="btn btn-outline-warning mt-auto {% if status == 'WL' %}disabled{% endif %}" href="{% url 'course:add_to_wishlist' course.id %}">❤️ Add to wishlist</a> 
 </div>
 
 {% endblock %}
