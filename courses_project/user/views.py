@@ -30,3 +30,11 @@ def edit_profile_view(request):
             form.save()
             return redirect("auth:profile")
     return render(request, "users/edit_profile.html", {"form": form})
+
+
+@login_required
+def delete_profile_view(request):
+    if request.method == "POST":
+        request.user.delete()
+        return redirect("auth:login")
+    return redirect("auth:profile")

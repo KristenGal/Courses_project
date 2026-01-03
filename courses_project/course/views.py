@@ -15,7 +15,7 @@ def add_course_view(request):
             course = form.save(commit=False)
             course.teacher = request.user
             course.save()
-            return redirect('course:list_courses')
+            return redirect('course:course_detail', course_id=course.id)
     else:
         form = CourseForm()
     return render(request, 'course/add_course.html', {'form': form})
@@ -103,3 +103,42 @@ def wishlist_view(request):
 def purchase_history_view(request):
     courses = Bucket.objects.filter(user=request.user, status=Bucket.Status.BOUGHT).select_related('course')
     return render(request, 'course/history.html', {'courses': courses})
+
+
+@login_required
+def all_user_courses_view(request):
+    courses = Course.objects.filter(teacher=request.user)
+    course_filter = CourseFilter(request.GET, queryset=courses)
+    courses = course_filter.qs.order_by('id')
+    paginator = Paginator(courses, 10)
+    page = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page)
+    elided_page_range = paginator.get_elided_page_range( # type: ignore
+        number=page_obj.number,
+        on_each_side=2,
+        on_ends=1
+    )
+    return render(request, 'course/list_courses.html', {'courses': page_obj, 'elided_page_range': elided_page_range})
+
+
+@login_required
+def edit_course_view(request, course_id):
+    course = Course.objects.get(id=course_id)
+    if request.user != course.teacher:
+        return redirect('course:my_courses')
+    if request.method == "POST":
+        form = CourseForm(request.POST, instance=course)
+        if form.is_valid():
+            form.save()
+            return redirect('course:course_detail', course_id=course.id) # type: ignore
+    else:
+        form = CourseForm(instance=course)
+    return render(request, 'course/edit_course.html', {'form': form, 'course': course})
+
+
+@login_required
+def delete_course_view(request, course_id):
+    course = Course.objects.get(id=course_id)
+    if request.user == course.teacher:
+        course.delete()
+    return redirect('course:my_courses')

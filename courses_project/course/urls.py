@@ -10,7 +10,10 @@ from .views import (
     delete_from_bucket,
     add_to_wishlist,
     wishlist_view,
-    purchase_history_view
+    purchase_history_view,
+    edit_course_view,
+    delete_course_view,
+    all_user_courses_view,
 )
 
 
@@ -28,4 +31,7 @@ urlpatterns = [
     path('add-to-wishlist/<int:course_id>/', add_to_wishlist, name='add_to_wishlist'),
     path('wishlist/', wishlist_view, name='wishlist'),
     path('history/', purchase_history_view, name='history'),
+    path('edit/<int:course_id>/', edit_course_view, name='edit_course'),
+    path('delete/<int:course_id>/', delete_course_view, name='delete_course'),
+    path('my-courses/', all_user_courses_view, name='my_courses'),
 ]

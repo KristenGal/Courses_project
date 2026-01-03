@@ -12,8 +12,13 @@
     <p>Duration: {{ course.duration }} hours</p>
     <p>Rating: {{ course.rate }}/10 ⭐</p>
     <p>Price: {{ course.price }} $</p>
-    <a class="btn btn-outline-primary mt-auto {% if status == 'IB' %}disabled{% endif %}" href="{% url 'course:add_to_bucket' course.id %}">🛒 Add to bucket</a>
-    <a class="btn btn-outline-warning mt-auto {% if status == 'WL' %}disabled{% endif %}" href="{% url 'course:add_to_wishlist' course.id %}">❤️ Add to wishlist</a> 
+    {% if course.teacher == request.user %}
+        <a class="btn btn-outline-primary mt-auto" href="{% url 'course:edit_course' course.id %}">Edit Course</a>
+        <a class="btn btn-outline-danger mt-auto" href="{% url 'course:delete_course' course.id %}">Delete Course</a>
+    {% else %}
+        <a class="btn btn-outline-primary mt-auto {% if status == 'IB' %}disabled{% endif %}" href="{% url 'course:add_to_bucket' course.id %}">🛒 Add to bucket</a>
+        <a class="btn btn-outline-warning mt-auto {% if status == 'WL' %}disabled{% endif %}" href="{% url 'course:add_to_wishlist' course.id %}">❤️ Add to wishlist</a> 
+    {% endif %}
 </div>
 
 {% endblock %}
