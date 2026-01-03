@@ -2,6 +2,8 @@ from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import RegistrationForm, CustomUserForm
+from django.conf import settings
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -11,6 +13,16 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            from_email = settings.DEFAULT_FROM_EMAIL
+            message = f"Welcome to our project, {user.full_name}! Thank you for registering."
+            to_email = request.user.email
+            send_mail(
+                "Welcome to Courses library",
+                message,
+                from_email,
+                [to_email],
+                fail_silently=False,
+            )
             return redirect("course:list_courses")
     form = RegistrationForm()
     return render(request, "users/register.html", {"form": form})
