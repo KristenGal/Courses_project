@@ -1,3 +1,4 @@
+from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -36,8 +37,9 @@ def list_courses_view(request):
     return render(request, 'course/list_courses.html', {'courses': page_obj, 'elided_page_range': elided_page_range})
 
 
-@login_required
 def add_category_view(request):
+    if not request.user.is_staff:
+        return HttpResponseNotFound("⛔ Access denied", )
     if request.method == "POST":
         form = CategoryForm(request.POST)
         if form.is_valid():
