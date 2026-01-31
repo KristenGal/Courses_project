@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django_filters',
     'course',
     'user',
+    'captcha',
 ]
 
 MIDDLEWARE = [

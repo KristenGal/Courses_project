@@ -13,16 +13,6 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            from_email = settings.DEFAULT_FROM_EMAIL
-            message = f"Welcome to our project, {user.full_name}! Thank you for registering."
-            to_email = request.user.email
-            send_mail(
-                "Welcome to Courses library",
-                message,
-                from_email,
-                [to_email],
-                fail_silently=False,
-            )
             return redirect("course:list_courses")
     form = RegistrationForm()
     return render(request, "users/register.html", {"form": form})
