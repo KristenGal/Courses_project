@@ -45,6 +45,9 @@
                     <a class="nav-link disabled" aria-disabled="true">Disabled</a>
                 </li> -->
             </ul>
+            <button id="themeToggle" class="btn btn-outline-secondary me-2">
+                🌙
+            </button>
             {% if request.user.is_authenticated %}
             <form class="d-flex" method="post" action="{% url 'auth:logout' %}">
                 {% csrf_token %}
