@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'course',
     'user',
     'captcha',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -150,3 +151,10 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = "Courses library <no-reply@gmail.com>"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
+    ],
+}

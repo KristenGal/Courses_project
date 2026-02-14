@@ -17,9 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from course.api_views import api_ninja
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('courses/', include('course.urls'), name='course'),
     path("auth/", include('user.urls', namespace="auth")),
     path("captcha/", include("captcha.urls")),
+    path("api/", include("course.api_urls")),
+    path("api_ninja/", api_ninja.urls),
 ]
